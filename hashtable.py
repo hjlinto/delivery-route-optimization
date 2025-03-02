@@ -1,53 +1,41 @@
 class HashTable:
     # Initializes an instance of hash table
-    def __init__(self, initial_capacity = 10):
-        self.table = []
-        for _ in range(initial_capacity):
-            self.table.append([])
+    def __init__(self, initial_capacity = 40):
+        self.capacity = initial_capacity
+        self.table = [[] for _ in range(initial_capacity)]
+
+    def _hash(self, key):
+        return key % self.capacity
 
     # Inserts a new key-value pair into the hash table
-    def insert(self, key, value):
-        bucket = hash(key) % len(self.table)
-        bucket_list = self.table[bucket]
+    def insert(self, package_id, address, city, state, zip, deadline, weight, notes, status):
+        index = self._hash(package_id)
+        bucket = self.table[index]
 
         # Updates key-value pair if found in bucket
-        for kv in bucket_list:
-            if kv[0] == key:
-                kv[1] = value
+        for i, (pid, _) in enumerate(bucket):
+            if pid == package_id:
+                bucket[i] = (package_id, [address, city, state, zip, deadline, weight, notes, status])
                 return True
 
         # Inserts key-value pair if not found in bucket
-        key_value = [key, value]
-        bucket_list.append(key_value)
-        return True
+        bucket.append((package_id, [address, city, state, zip, deadline, weight, notes, status]))
 
     # Searches for matching key-value pair in the hash table
-    def search(self, key):
-        bucket = hash(key) % len(self.table)
-        bucket_list = self.table[bucket]
+    def lookup(self, package_id):
+        index = self._hash(package_id)
+        bucket = self.table[index]
 
-        for kv in bucket_list:
-            if kv[0] == key:
-                return kv[1]
+        for pid, data in bucket:
+            if pid == package_id:
+                return f"Package ID: {pid}, Details: {data}"
         return None
 
-    # Removes key-value pair from the hash table
-    def remove(self, key):
-        bucket = hash(key) % len(self.table)
-        bucket_list = self.table[bucket]
-        for kv in bucket_list:
-            if kv[0] == key:
-                bucket_list.remove(kv)
-"""
-# Testing
+
+# Test cases
+print("=" * 50)
+print("Test cases for hashtable.py: ")
 ht = HashTable()
-ht.insert("name", "Hunter")
-ht.insert("age", 28)
-ht.insert("city", "Detroit")
-print(ht.search("name"))        # Hunter
-print(ht.search("age"))         # 28
-print(ht.search("city"))        # Detroit
-print(ht.search("country"))     # None
-ht.remove("city")
-print(ht.search("city"))        # None
-"""
+ht.insert(1, "123 Main St", "Salt Lake City", "Utah", "84101", "10:30 AM", 5, "Deliver on truck 2", "En route" )
+print(ht.lookup(1))
+print("=" * 50)
