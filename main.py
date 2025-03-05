@@ -116,7 +116,7 @@ def execute_deliveries(truck, ht):
 
     truck.return_to_hub(get_distance(current_address, truck.hub_address))
 
-# Main function to load all data and run program
+# Main function to load all data and run application
 def main():
 
     # Loads address and distance data
@@ -142,8 +142,17 @@ def main():
 
     # Manually assigns packages to trucks to stay under the total mileage limit of 140 miles
     truck1.package_list = [15, 1, 13, 14, 16, 20, 29, 30, 31, 37, 19, 2, 4, 5]
+    for pid in truck1.package_list:
+        package = ht.lookup(pid)
+        package.loading_time = truck1.time
     truck2.package_list = [6, 25, 34, 40, 3, 17, 18, 21, 36, 38]
+    for pid in truck2.package_list:
+        package = ht.lookup(pid)
+        package.loading_time = truck2.time
     truck3.package_list = [7, 8, 9, 10, 11, 12, 22, 23, 24, 26, 27, 28, 32, 33, 35, 39]
+    for pid in truck3.package_list:
+        package = ht.lookup(pid)
+        package.loading_time = truck3.time
 
     # Sorts packages for each truck
     sort_packages(truck1, ht)

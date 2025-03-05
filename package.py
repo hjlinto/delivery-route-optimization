@@ -12,6 +12,7 @@ class Package:
         self.status = status
         self.en_route_time = None
         self.delivery_time = None
+        self.loading_time = None
 
     # Returns a string representation of the package details
     def __str__(self):

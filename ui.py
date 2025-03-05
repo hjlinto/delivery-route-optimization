@@ -12,29 +12,17 @@ def get_package_statuses(time_check, ht, trucks):
             # Determine which truck is handling the package
             assigned_truck = next((truck for truck in trucks if package_id in truck.package_list), None)
 
-            # Prints truck assignments and start times (DEBUG) --- NEXT STEP (start times aren't loading properly)
-            print(
-                f"DEBUG: Package {package.package_id} assigned to Truck {assigned_truck.truck_id if assigned_truck else 'N/A'} | Truck Start Time: {assigned_truck.time if assigned_truck else 'N/A'}")
-            print(f"DEBUG: Input Time: {input_time} | Delivery Time: {package.delivery_time}")
-
-            # Handles the status of packages that don't arrive until 9:05 am
-            if package.notes and "Delayed on flight---will not arrive to depot until 9:05 am" in package.notes:
-                if input_time < timedelta(hours=9, minutes=5):
-                    status = "On the Way to the Hub"
-
-            # Assigns status of all packages based on where package is at given time
-            if assigned_truck:
-                truck_start_time = assigned_truck.time
-                if package.delivery_time and package.delivery_time <= input_time:
-                    status = "Delivered"
-                elif truck_start_time and truck_start_time <= input_time:
-                    status = "En Route"
-                else:
-                    status = "At Hub"
-
+            if input_time < package.loading_time:
+                package.status = "At Hub"
+                package.delivery_time = None
+            elif input_time < package.delivery_time:
+                package.status = "En Route"
+                package.delivery_time = None
+            else:
+                package.status = "Delivered"
             # Formats package details for readable UI
             package_info = (
-                f"Package {package.package_id} | Status: {status}\n"
+                f"Package {package.package_id} | Status: {package.status}\n"
                 f"Address: {package.address}, {package.city}, {package.state}, {package.zip}\n"
                 f"Deadline: {package.deadline} | Weight: {package.weight}kg\n"
                 f"Notes: {package.notes if package.notes else 'None'}\n"
