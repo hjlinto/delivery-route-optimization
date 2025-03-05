@@ -159,42 +159,10 @@ def main():
     sort_packages(truck2, ht)
     sort_packages(truck3, ht)
 
-    # Displays sorted package order for each truck (DEBUG)
-    print("Truck 1 Sorted Package Order:", truck1.package_list)
-    print("Truck 2 Sorted Package Order:", truck2.package_list)
-    print("Truck 3 Sorted Package Order:", truck3.package_list)
-
-    # Display each truck's start time (DEBUG)
-    print(f"Truck 1 Start Time: {truck1.time}")
-    print(f"Truck 2 Start Time: {truck2.time}")
-    print(f"Truck 3 Start Time: {truck3.time}")
-
     # Executes deliveries for each truck
     execute_deliveries(truck1, ht)
     execute_deliveries(truck2, ht)
     execute_deliveries(truck3, ht)
-
-    # Displays package delivery summaries for all 40 packages (DEBUG)
-    print("\n📦 Package Delivery Summary 📦")
-    print("=" * 70)
-    for package_id in range(1, 41):
-        package = ht.lookup(package_id)
-        assigned_truck = None
-        for truck in [truck1, truck2, truck3]:
-            if package_id in truck.package_list:
-                assigned_truck = truck.truck_id
-                break
-        print(f"Package {package_id} | Delivered At: {package.delivery_time} | Address: {package.address},"
-              f" {package.city}, {package.state}, {package.zip} | Truck {assigned_truck}")
-    print("=" * 70)
-    print("All packages delivered successfully!")
-
-    # Calculates and displays mileage for each truck and total mileage (DEBUG)
-    total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
-    print(f"Truck 1 Mileage: {truck1.mileage:.2f} miles")
-    print(f"Truck 2 Mileage: {truck2.mileage:.2f} miles")
-    print(f"Truck 3 Mileage: {truck3.mileage:.2f} miles")
-    print(f"TOTAL MILEAGE: {total_mileage:.2f} miles")
 
     # Launches the user interface for queries
     main_ui(ht, [truck1, truck2, truck3])
