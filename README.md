@@ -70,5 +70,12 @@ git clone https://github.com/hjlinto/delivery-route-optimization.git
 python main.py
 ```
 
+---
+
+## Reflections
+- In a future version, I would explore implementing logic to handle the delegation of packages for each truck based on delivery deadlines and other restrictions as input, rather than the manual loading process it's currently set up to work by.
+
+---
+
 ## Author
 Created by: Hunter J Linton
